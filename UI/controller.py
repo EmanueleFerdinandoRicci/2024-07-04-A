@@ -50,4 +50,33 @@ class Controller:
         self._view.update_page()
 
     def handle_path(self, e):
-        pass
+        self._view.txt_result2.controls.clear()
+
+        # Avviamo l'algoritmo
+        path, score = self._model.getBestPath()
+
+        if not path:
+            self._view.txt_result2.controls.append(
+                ft.Text("Nessun cammino trovato con i criteri specificati.", color="red")
+            )
+            self._view.update_page()
+            return
+
+        # a. Stampiamo il punteggio totale del percorso ottenuto
+        self._view.txt_result2.controls.append(
+            ft.Text(f"Cammino ottimo trovato!")
+        )
+        self._view.txt_result2.controls.append(
+            ft.Text(f"Punteggio Totale: {score} punti")
+        )
+        self._view.txt_result2.controls.append(
+            ft.Text(f"Numero di tappe: {len(path)}")
+        )
+
+        for i in path:
+            self._view.txt_result2.controls.append(
+                ft.Text(f"{i}")
+            )
+
+        # Aggiorniamo la pagina Flet per mostrare i dati a video
+        self._view.update_page()
